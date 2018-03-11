@@ -2,26 +2,32 @@
 
 <p align="center"><img src="https://ideea.co.uk/static/wp_cron.png"></p>
 
-### A better API into the WordPress Cron system.
-The WordPress cron API is very verbose and equally as User-unfriendly. WP_Cron is a simple class that you can extend to make custom cron events.
+### Clean API into WordPress's Cron System
+WP_Cron is a simple and easy to use class for defining cron events in WordPress. Define a class extending WP_Cron, set the frequency of the cron event using the $every property and then write the code you want to execute in the handle() method.
 
 
 ```php
-Class DoThisEveryHour extends WP_Cron{
+<?php
 
-    public $interval = [
+Class UpdateLondonWeather extends WP_Cron{
+
+    public $every = [
         'seconds'   => 60,
-        'minutes'   => 29,
-        'hours'     => .5,
-
-        'weeks'     => 0,
-        'months'    => 0,
+        'minutes'   => 59,
+        'hours'     => 1,
     ];
     
     public function handle(){
-        update_option('Last_WP_Cron', date('Y-m-d H:i:s'));
+        $response = file_get_contents('http://api.openweathermap.org/data/2.5/weather?id=2172797');
+        $json     = json_decode($response);
+        if($json === NULL && json_last_error() !== JSON_ERROR_NONE){
+            return;
+        }
+        if(isset($json->weather[0]->description)){
+            update_option('london_weather', $json->weather[0]->description);
+        }
     }
 }
 
-DoThisEveryHour::register();
+UpdateLondonWeather::register();
 ```

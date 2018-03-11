@@ -14,11 +14,11 @@ Class WP_Cron{
 
 	public function calculateInterval(){
 
-		if(!is_array($this->interval)){
+		if(!is_array($this->every)){
 			throw new Exception("Interval must be an array");
 		}
 
-		if(!(count(array_filter(array_keys($array), 'is_string')) > 0)){
+		if(!(count(array_filter(array_keys($this->every), 'is_string')) > 0)){
 			throw new Exception("WP_Cron::\$interval must be an assoc array");
 		}
 		
@@ -33,8 +33,8 @@ Class WP_Cron{
 		);
 
 		foreach($multipliers as $unit => $multiplier){
-			if(isset($this->interval[$key]) && is_int($this->interval[$key])){
-				$interval = $interval + ($this->interval[$key] * $multiplier);
+			if(isset($this->every[$key]) && is_int($this->every[$key])){
+				$interval = $interval + ($this->every[$key] * $multiplier);
 			}
 		}
 
