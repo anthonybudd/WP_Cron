@@ -33,7 +33,7 @@ Class WP_Cron{
 		);
 
 		foreach($multipliers as $unit => $multiplier){
-			if(isset($this->every[$key]) && is_int($this->every[$key])){
+			if(isset($this->every[$unit]) && is_int($this->every[$unit])){
 				$interval = $interval + ($this->every[$key] * $multiplier);
 			}
 		}
