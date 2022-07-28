@@ -1,6 +1,5 @@
 # WP_Cron
 
-<p align="center"><img src="https://ideea.co.uk/static/wp_cron.png"></p>
 
 ### Clean API into WordPress's Cron System
 WP_Cron is a simple and easy to use class for defining cron events in WordPress. Simply, define a class extending WP_Cron, set the frequency of the cron event using the $every property and then write the code you want to execute in the handle() method.
